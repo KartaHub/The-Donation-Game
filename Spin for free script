@@ -1,0 +1,253 @@
+-- Create ScreenGui
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "FreeSpinGUI"
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+-- Create Main Frame
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(0, 350, 0, 250)
+MainFrame.Position = UDim2.new(0.5, -175, 0.5, -125)
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+MainFrame.BorderSizePixel = 0
+MainFrame.Parent = ScreenGui
+
+-- Add corner rounding
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 12)
+UICorner.Parent = MainFrame
+
+-- Add shadow effect
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(60, 60, 80)
+UIStroke.Thickness = 3
+UIStroke.Parent = MainFrame
+
+-- Create Title
+local TitleLabel = Instance.new("TextLabel")
+TitleLabel.Name = "TitleLabel"
+TitleLabel.Size = UDim2.new(1, 0, 0, 50)
+TitleLabel.Position = UDim2.new(0, 0, 0, 0)
+TitleLabel.BackgroundColor3 = Color3.fromRGB(40, 40, 55)
+TitleLabel.BorderSizePixel = 0
+TitleLabel.Text = "[💸FREE!] Spin For Free!"
+TitleLabel.TextColor3 = Color3.fromRGB(255, 215, 0)
+TitleLabel.TextSize = 20
+TitleLabel.Font = Enum.Font.GothamBold
+TitleLabel.Parent = MainFrame
+
+-- Add corner rounding to title
+local TitleCorner = Instance.new("UICorner")
+TitleCorner.CornerRadius = UDim.new(0, 12)
+TitleCorner.Parent = TitleLabel
+
+-- Create INF Credit Button
+local InfCreditButton = Instance.new("TextButton")
+InfCreditButton.Name = "InfCreditButton"
+InfCreditButton.Size = UDim2.new(0.8, 0, 0, 50)
+InfCreditButton.Position = UDim2.new(0.1, 0, 0.3, 0)
+InfCreditButton.BackgroundColor3 = Color3.fromRGB(50, 205, 50)
+InfCreditButton.BorderSizePixel = 0
+InfCreditButton.Text = "INF Credit"
+InfCreditButton.TextColor3 = Color3.white
+InfCreditButton.TextSize = 18
+InfCreditButton.Font = Enum.Font.GothamBold
+InfCreditButton.Parent = MainFrame
+
+-- Style INF Credit Button
+local InfCorner = Instance.new("UICorner")
+InfCorner.CornerRadius = UDim.new(0, 8)
+InfCorner.Parent = InfCreditButton
+
+local InfStroke = Instance.new("UIStroke")
+InfStroke.Color = Color3.fromRGB(30, 180, 30)
+InfStroke.Thickness = 2
+InfStroke.Parent = InfCreditButton
+
+-- Create Auto Redeem Button
+local AutoRedeemButton = Instance.new("TextButton")
+AutoRedeemButton.Name = "AutoRedeemButton"
+AutoRedeemButton.Size = UDim2.new(0.8, 0, 0, 50)
+AutoRedeemButton.Position = UDim2.new(0.1, 0, 0.6, 0)
+AutoRedeemButton.BackgroundColor3 = Color3.fromRGB(65, 105, 225)
+AutoRedeemButton.BorderSizePixel = 0
+AutoRedeemButton.Text = "Auto Redeem Max Option"
+AutoRedeemButton.TextColor3 = Color3.white
+AutoRedeemButton.TextSize = 18
+AutoRedeemButton.Font = Enum.Font.GothamBold
+AutoRedeemButton.Parent = MainFrame
+
+-- Style Auto Redeem Button
+local RedeemCorner = Instance.new("UICorner")
+RedeemCorner.CornerRadius = UDim.new(0, 8)
+RedeemCorner.Parent = AutoRedeemButton
+
+local RedeemStroke = Instance.new("UIStroke")
+RedeemStroke.Color = Color3.fromRGB(30, 80, 200)
+RedeemStroke.Thickness = 2
+RedeemStroke.Parent = AutoRedeemButton
+
+-- Create Toggle Indicators
+local InfToggle = Instance.new("TextLabel")
+InfToggle.Name = "InfToggle"
+InfToggle.Size = UDim2.new(0, 20, 0, 20)
+InfToggle.Position = UDim2.new(0.85, 10, 0.3, 15)
+InfToggle.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+InfToggle.BorderSizePixel = 0
+InfToggle.Text = "OFF"
+InfToggle.TextColor3 = Color3.white
+InfToggle.TextSize = 12
+InfToggle.Font = Enum.Font.GothamBold
+InfToggle.Parent = MainFrame
+
+local RedeemToggle = Instance.new("TextLabel")
+RedeemToggle.Name = "RedeemToggle"
+RedeemToggle.Size = UDim2.new(0, 20, 0, 20)
+RedeemToggle.Position = UDim2.new(0.85, 10, 0.6, 15)
+RedeemToggle.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+RedeemToggle.BorderSizePixel = 0
+RedeemToggle.Text = "OFF"
+RedeemToggle.TextColor3 = Color3.white
+RedeemToggle.TextSize = 12
+RedeemToggle.Font = Enum.Font.GothamBold
+RedeemToggle.Parent = MainFrame
+
+-- Round the toggle indicators
+local ToggleCorner = Instance.new("UICorner")
+ToggleCorner.CornerRadius = UDim.new(1, 0)
+ToggleCorner.Parent = InfToggle
+
+local ToggleCorner2 = Instance.new("UICorner")
+ToggleCorner2.CornerRadius = UDim.new(1, 0)
+ToggleCorner2.Parent = RedeemToggle
+
+-- Draggable functionality
+local UserInputService = game:GetService("UserInputService")
+local dragging = false
+local dragInput, dragStart, startPos
+
+local function update(input)
+	local delta = input.Position - dragStart
+	MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+TitleLabel.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = true
+		dragStart = input.Position
+		startPos = MainFrame.Position
+		
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
+	end
+end)
+
+TitleLabel.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement then
+		dragInput = input
+	end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+	if input == dragInput and dragging then
+		update(input)
+	end
+end)
+
+-- Variables to track active loops
+local infCreditActive = false
+local infCreditThread = nil
+
+local autoRedeemActive = false
+local autoRedeemThread = nil
+
+-- INF Credit Function
+InfCreditButton.MouseButton1Click:Connect(function()
+	infCreditActive = not infCreditActive
+	
+	if infCreditActive then
+		-- Turn ON
+		InfToggle.BackgroundColor3 = Color3.fromRGB(50, 205, 50)
+		InfToggle.Text = "ON"
+		
+		-- Start the loop
+		infCreditThread = task.spawn(function()
+			while infCreditActive and task.wait() do
+				local args = {
+					"100000000000",
+					1
+				}
+				game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Spin"):FireServer(unpack(args))
+			end
+		end)
+	else
+		-- Turn OFF
+		InfToggle.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+		InfToggle.Text = "OFF"
+		
+		-- Stop the loop
+		if infCreditThread then
+			task.cancel(infCreditThread)
+			infCreditThread = nil
+		end
+	end
+end)
+
+-- Auto Redeem Function
+AutoRedeemButton.MouseButton1Click:Connect(function()
+	autoRedeemActive = not autoRedeemActive
+	
+	if autoRedeemActive then
+		-- Turn ON
+		RedeemToggle.BackgroundColor3 = Color3.fromRGB(50, 205, 50)
+		RedeemToggle.Text = "ON"
+		
+		-- Start the loop
+		autoRedeemThread = task.spawn(function()
+			while autoRedeemActive and task.wait() do
+				local args = {
+					"10000"
+				}
+				game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Withdraw"):FireServer(unpack(args))
+			end
+		end)
+	else
+		-- Turn OFF
+		RedeemToggle.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+		RedeemToggle.Text = "OFF"
+		
+		-- Stop the loop
+		if autoRedeemThread then
+			task.cancel(autoRedeemThread)
+			autoRedeemThread = nil
+		end
+	end
+end)
+
+-- Close button (optional)
+local CloseButton = Instance.new("TextButton")
+CloseButton.Name = "CloseButton"
+CloseButton.Size = UDim2.new(0, 30, 0, 30)
+CloseButton.Position = UDim2.new(1, -35, 0, 5)
+CloseButton.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+CloseButton.BorderSizePixel = 0
+CloseButton.Text = "X"
+CloseButton.TextColor3 = Color3.white
+CloseButton.TextSize = 16
+CloseButton.Font = Enum.Font.GothamBold
+CloseButton.Parent = TitleLabel
+
+local CloseCorner = Instance.new("UICorner")
+CloseCorner.CornerRadius = UDim.new(0, 8)
+CloseCorner.Parent = CloseButton
+
+CloseButton.MouseButton1Click:Connect(function()
+	ScreenGui:Destroy()
+end)
+
+-- Make GUI visible
+ScreenGui.Enabled = true
